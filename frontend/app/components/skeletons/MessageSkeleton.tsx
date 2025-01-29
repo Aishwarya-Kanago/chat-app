@@ -2,9 +2,10 @@ import React from "react";
 
 interface MessageSkeletonProps {
   message: string;
+  isSender: boolean;
 }
 
-const MessageSkeleton = ({ message }: MessageSkeletonProps) => {
+const MessageSkeleton = ({ message, isSender }: MessageSkeletonProps) => {
   return (
     <>
       <div className="flex items-end gap-2 m-5">
@@ -16,7 +17,11 @@ const MessageSkeleton = ({ message }: MessageSkeletonProps) => {
         <div>
           <p className="">2:00</p>
 
-          <p className=" bg-slate-500 w-fit p-2 px-3 rounded-md text-white">
+          <p
+            className={`bg-slate-500 w-fit p-2 px-3 rounded-md text-white ${
+              isSender && "bg-[#5268fb]"
+            }`}
+          >
             {message}
           </p>
         </div>

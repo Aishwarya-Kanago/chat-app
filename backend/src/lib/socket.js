@@ -5,13 +5,17 @@ import express from "express";
 const app = express();
 const server = http.createServer(app);
 
-const io = new Server(server, {
+export const io = new Server(server, {
   cors: {
     origin: ["http://localhost:3000"],
   },
 });
 
 const onlineUsers = new Map();
+
+export function getReceiverSocketId(userId) {
+  return onlineUsers.get(userId);
+}
 
 io.on("connection", (socket) => {
   console.log("connection successful", socket.id);
@@ -34,12 +38,12 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("sendMessage", (socketId, receiverId, message) => {
+  socket.on("sendMessage", (socketId, receiverId, senderUserId, message) => {
     console.log(`Message from ${socketId} to ${receiverId}: ${message}`);
 
     const receiverSocketId = onlineUsers.get(receiverId);
     if (receiverSocketId) {
-      io.to(receiverSocketId).emit("responseMessage", message);
+      io.to(receiverSocketId).emit("responseMessage", message, senderUserId);
     } else {
       console.log(`User ${receiverId} is not online`);
     }
@@ -47,30 +51,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
-    // for (const [userId, socketId] of onlineUsers.entries()) {
-    //   if (socketId === socket.id) {
-    //     onlineUsers.delete(userId);
-    //     io.emit("newActiveUserResponse", Array.from(onlineUsers.keys()));
-    //     break;
-    //   }
-    // }
   });
-  // socket.on("sendMessage", (socketId, receiverId, message) => {
-  //   console.log(message);
-  //   socket.broadcast.emit("responseMessage", message);
-  // });
-
-  // socket.on("newActiveUser", (user) => {
-  //   onLineUsers.add(user._id);
-  //   console.log(onLineUsers, "onLineUsers");
-  //   socket.emit("newActiveUserResponse", Array.from(onLineUsers));
-  // });
-
-  // socket.on("removeActiveUser", (user) => {
-  //   onLineUsers.delete(user._id);
-  //   console.log(onLineUsers, "newOnlineUsers");
-  //   socket.emit("newActiveUserResponse", Array.from(onLineUsers));
-  // });
 });
 
 export { app, server };

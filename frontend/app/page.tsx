@@ -8,6 +8,8 @@ import { RootState } from "./store/store";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "./lib/axios";
 import { setUserInfo, User } from "./store/authSlice";
+import NoChatSelected from "./components/NoChatSelected";
+import { UserMessages } from "./lib/types";
 
 const page = () => {
   const [selectedUser, setSelectedUser] = useState<User | undefined>();
@@ -15,12 +17,12 @@ const page = () => {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const { push } = useRouter();
   const dispatch = useDispatch();
+  const [serverMessages, setServerMessages] = useState<UserMessages>([]);
 
   useEffect(() => {
     const getSidebarUsers = async () => {
       await axiosInstance.get("/messages/users").then((res) => {
         const response = res.data;
-        setSelectedUser(response[0]);
         setUserData(response);
       });
     };
@@ -40,17 +42,22 @@ const page = () => {
       {isLoggedIn && (
         <div className="h-[80vh] m-10">
           <div className="flex items-center justify-center">
-            <div className="shadow-lg rounded-lg w-full max-w-6xl h-[calc(100vh-8rem)]">
+            <div className="shadow-xl rounded-lg w-full max-w-6xl h-[calc(100vh-8rem)]">
               <div className="flex rounded-lg w-full max-w-6xl h-[calc(100vh-8rem)] overflow-hidden ">
                 <Sidebar
                   userData={userData}
-                  selectedUser={selectedUser}
                   setSelectedUser={setSelectedUser}
+                  setServerMessages={setServerMessages}
                 />
-                {/* <Sidebar /> */}
-                {/* <NoChatSelected />
-            {!selectedUser ? <NoChatSelected /> : <ChatContainer />} */}
-                <Chatbox selectedUser={selectedUser} />
+                {!selectedUser ? (
+                  <NoChatSelected />
+                ) : (
+                  <Chatbox
+                    selectedUser={selectedUser}
+                    setServerMessages={setServerMessages}
+                    serverMessages={serverMessages}
+                  />
+                )}
               </div>
             </div>
           </div>

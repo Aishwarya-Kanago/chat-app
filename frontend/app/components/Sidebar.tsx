@@ -3,15 +3,20 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoIosContacts } from "react-icons/io";
 import { User } from "../store/authSlice";
-import { socket } from "../lib/socketConnection";
+import { getMessages, socket } from "../lib/socketConnection";
+import { UserMessages } from "../lib/types";
 
 type SidebarProps = {
   setSelectedUser: Dispatch<SetStateAction<User | undefined>>;
-  selectedUser: User | undefined;
+  setServerMessages: Dispatch<SetStateAction<UserMessages>>;
   userData: User[];
 };
 
-const Sidebar = ({ userData, selectedUser, setSelectedUser }: SidebarProps) => {
+const Sidebar = ({
+  userData,
+  setSelectedUser,
+  setServerMessages,
+}: SidebarProps) => {
   const [activeUsers, setActiveUsers] = useState<string[]>([]);
 
   useEffect(() => {
@@ -26,6 +31,13 @@ const Sidebar = ({ userData, selectedUser, setSelectedUser }: SidebarProps) => {
     };
   }, [socket, activeUsers]);
 
+  const handleSelectedUser = async (user: User) => {
+    setSelectedUser(user);
+    const selectedUserMessages = await getMessages(user._id);
+    setServerMessages(selectedUserMessages);
+    console.log(selectedUserMessages, "messagessssssss alllll");
+  };
+
   return (
     <div className="bg-white flex-2 border-r-2 border-slate-200">
       <div className="m-4">
@@ -38,7 +50,7 @@ const Sidebar = ({ userData, selectedUser, setSelectedUser }: SidebarProps) => {
         <hr className="border-r-2 border-slate-200" />
         <ul>
           {userData.map((user: User) => (
-            <li key={user._id} onClick={() => setSelectedUser(user)}>
+            <li key={user._id} onClick={() => handleSelectedUser(user)}>
               <div className=" flex gap-2 items-center p-2 cursor-pointer hover:bg-slate-500">
                 <div className="relative">
                   <img

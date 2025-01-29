@@ -1,40 +1,68 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import ChatContainer from "./ChatContainer";
-import { io, Socket } from "socket.io-client";
 import { User } from "../store/authSlice";
-import { socket } from "../lib/socketConnection";
+import { sendMessage, socket } from "../lib/socketConnection";
+import { UserMessages } from "../lib/types";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 type ChatboxProps = {
   selectedUser: User | undefined;
+  serverMessages: UserMessages;
+  setServerMessages: Dispatch<React.SetStateAction<UserMessages>>;
 };
 
-const Chatbox = ({ selectedUser }: ChatboxProps) => {
+const Chatbox = ({
+  selectedUser,
+  serverMessages,
+  setServerMessages,
+}: ChatboxProps) => {
   const [message, setMessage] = useState<string>("");
-  const [serverMessages, setServerMessages] = useState<
-    { message: string; socketId: string }[]
-  >([]);
+
+  const user = useSelector((state: RootState) => state.auth);
 
   const onChangeHandler = (e: any) => {
     setMessage(e.target.value);
   };
 
   const onclickHandler = () => {
-    const socketId = socket.id || "unknown";
-    socket.emit("sendMessage", socket.id, selectedUser?._id, message);
-    setServerMessages((prevState) => {
-      return [...prevState, { message, socketId }];
-    });
+    if (!selectedUser?._id) return;
+
+    sendMessage({ message: message }, selectedUser?._id);
+    setServerMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        message: message,
+        senderId: user._id,
+        receiverId: selectedUser?._id,
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+
     setMessage("");
   };
 
   useEffect(() => {
-    const handleMessage = (responseMessage: string, socketId: string) => {
-      setServerMessages((prevState) => {
-        return [...prevState, { message: responseMessage, socketId }];
-      });
+    if (!selectedUser) return;
+
+    const handleMessage = (
+      responseMessage: string,
+      senderUserId: string,
+      senderSocketId: string
+    ) => {
+      setServerMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          message: responseMessage,
+          senderId: senderUserId,
+          receiverId: user._id,
+          createdAt: new Date().toISOString(),
+        },
+      ]);
     };
+
     socket.on("responseMessage", handleMessage);
 
     return () => {
@@ -60,7 +88,6 @@ const Chatbox = ({ selectedUser }: ChatboxProps) => {
       <ChatContainer
         selectedUser={selectedUser}
         serverMessages={serverMessages}
-        currentUserId={socket.id || "unknown"}
       />
       <div className="bg-custom-grey flex items-center gap-4">
         <input

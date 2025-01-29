@@ -1,5 +1,5 @@
 import cloudinary from "../lib/cloudinary.js";
-// import { getReceiverSocketId } from "../lib/socket.js";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 
@@ -24,10 +24,10 @@ export const getMessages = async (req, res) => {
 
     const messages = await Message.find({
       $or: [
-        { socketId: myId, receiverId: userToChatId },
-        { socketId: userToChatId, receiverId: myId },
+        { senderId: myId, receiverId: userToChatId },
+        { senderId: userToChatId, receiverId: myId },
       ],
-    });
+    }).sort({ createdAt: 1 });
 
     res.status(200).json(messages);
   } catch (error) {
@@ -38,9 +38,11 @@ export const getMessages = async (req, res) => {
 
 export const sendMessage = async (req, res) => {
   try {
-    const { text, image } = req.body;
+    const { message, image } = req.body;
     const { id: receiverId } = req.params;
-    const socketId = req.user._id;
+    const senderId = req.user._id;
+
+    console.log("api payload", senderId.toString(), receiverId, message);
 
     let imageUrl;
     if (image) {
@@ -49,18 +51,24 @@ export const sendMessage = async (req, res) => {
     }
 
     const newMessage = new Message({
-      socketId,
+      senderId,
       receiverId,
-      text,
+      message,
       image: imageUrl,
     });
 
     await newMessage.save();
 
-    // const receiverSocketId = getReceiverSocketId(receiverId);
-    // if (receiverSocketId) {
-    //   io.to(receiverSocketId).emit("newMessage", newMessage);
-    // }
+    const receiverSocketId = getReceiverSocketId(receiverId);
+
+    if (receiverSocketId && senderId) {
+      io.to(receiverSocketId).emit(
+        "responseMessage",
+        message,
+        senderId.toString()
+      );
+      console.log("socket sent the message");
+    }
 
     res.status(201).json(newMessage);
   } catch (error) {
