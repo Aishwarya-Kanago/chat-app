@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { axiosInstance } from "./axios";
 import axios from "axios";
 
-export const socket: Socket = io("http://localhost:5001");
+export const socket: Socket = io("https://chat-app-mauve-ten.vercel.app");
 
 export const emitActiveUsers = (response: User) => {
   socket.emit("newActiveUser", response);
