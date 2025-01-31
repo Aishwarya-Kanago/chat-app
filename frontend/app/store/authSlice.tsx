@@ -32,21 +32,11 @@ const authSlice = createSlice({
       if (action.payload.createdAt) {
         const parsedDate = new Date(action.payload.createdAt);
         state.createdAt = isNaN(parsedDate.getTime())
-          ? new Date().toISOString() // If invalid, set to current date
-          : parsedDate.toISOString(); // Store as ISO format
+          ? new Date().toISOString() 
+          : parsedDate.toISOString(); 
       } else {
-        state.createdAt = new Date().toISOString(); // Default to now
+        state.createdAt = new Date().toISOString(); 
       }
-
-      // if (action.payload.lastSeen) {
-      //   const parsedLastSeen = new Date(action.payload.lastSeen);
-      //   state.lastSeen = isNaN(parsedLastSeen.getTime())
-      //     ? new Date().toISOString() // If invalid, set to current date
-      //     : parsedLastSeen.toISOString(); // Store as ISO format
-      // } else {
-      //   state.lastSeen = new Date().toISOString(); // Default to now
-      // }
-      // Save user data to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("user", JSON.stringify(state));
       }
@@ -55,7 +45,6 @@ const authSlice = createSlice({
     updateProfilePic(state, action: PayloadAction<User>) {
       state.profilePic = action.payload.profilePic;
 
-      // Update localStorage when profile picture is updated
       const updatedUser = { ...state, profilePic: action.payload.profilePic };
       if (typeof window !== "undefined") {
         localStorage.setItem("user", JSON.stringify(updatedUser));

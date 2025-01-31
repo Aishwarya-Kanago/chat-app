@@ -8,12 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { appendToServerMessages } from "../store/chatSlice";
 import NoChatSelected from "./NoChatSelected";
-import { axiosInstance } from "../lib/axios";
-import toast from "react-hot-toast";
 
 const Chatbox = () => {
   const [message, setMessage] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement>(null); // Reference for file input
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const user = useSelector((state: RootState) => state.auth);
   const chat = useSelector((state: RootState) => state.chat);
@@ -132,9 +130,14 @@ const Chatbox = () => {
               className="p-2 lg:p-4 rounded-lg m-1 mb-2 lg:m-3 w-[80%]"
               value={message}
               onChange={onChangeHandler}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onclickHandler();
+                }
+              }}
             />
             <label htmlFor="imageUpload" className="cursor-pointer relative">
-              <MdOutlineImage className="lg:size-8" />
+              <MdOutlineImage className="md:size-6 lg:size-8" />
               <input
                 type="file"
                 accept="image/*"
@@ -144,7 +147,10 @@ const Chatbox = () => {
                 id="imageUpload"
               />
             </label>
-            <IoIosSend className="lg:size-8" onClick={onclickHandler} />
+            <IoIosSend
+              className="md:size-6 lg:size-8"
+              onClick={onclickHandler}
+            />
           </div>
         </div>
       ) : (

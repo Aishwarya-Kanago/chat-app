@@ -5,13 +5,12 @@ import { MdEmail, MdLock } from "react-icons/md";
 import Link from "next/link";
 import { IoEye } from "react-icons/io5";
 import { IoIosEyeOff } from "react-icons/io";
-import { Loader2 } from "lucide-react";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { setUserInfo, User } from "../store/authSlice";
+import { setUserInfo } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { emitActiveUsers, socket } from "../lib/socketConnection";
+import { socket } from "../lib/socketConnection";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);

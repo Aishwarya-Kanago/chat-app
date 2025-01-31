@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FcCamera } from "react-icons/fc";
 import { MdPerson } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,14 +43,6 @@ const page = () => {
   const user = useSelector((state: RootState) => state.auth);
 
   const { push } = useRouter();
-
-  // useEffect(() => {
-  //   if (!user.isLoggedIn) {
-  //     push("/login");
-  //   } else {
-  //     push("/profile");
-  //   }
-  // }, [user]);
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
@@ -115,7 +107,11 @@ const page = () => {
               </label>
               <div className="flex justify-between items-center p-1 gap-2">
                 <span className="text-black font-light">Member Since</span>
-                <span className="text-xs">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US") : "N/A"}</span>
+                <span className="text-xs">
+                  {user?.createdAt
+                    ? new Date(user.createdAt).toLocaleDateString("en-US")
+                    : "N/A"}
+                </span>
               </div>
               <hr className="border-t border-gray-300 my-2" />
               <div className="flex justify-between items-center p-1 gap-2">

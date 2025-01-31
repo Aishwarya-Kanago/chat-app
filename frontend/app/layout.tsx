@@ -6,9 +6,9 @@ import { Toaster } from "react-hot-toast";
 import ReduxProvider from "./store/Provider";
 
 const poppins = Poppins({
-  variable: "--font-poppins", // Define a CSS variable
-  subsets: ["latin"], // Load only Latin subset to optimize performance
-  weight: ["300", "400", "500", "600", "700"], // Choose font weights you need
+  variable: "--font-poppins", 
+  subsets: ["latin"], 
+  weight: ["300", "400", "500", "600", "700"], 
 });
 
 export const metadata: Metadata = {

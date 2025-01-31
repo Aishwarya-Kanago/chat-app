@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
-import { User } from "../store/authSlice";
-import { UserMessages } from "../lib/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { format, isSameDay, parseISO } from "date-fns";

@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { MdSettings, MdOutlineLogout } from "react-icons/md";
+import { MdOutlineLogout } from "react-icons/md";
 import Link from "next/link";
-import { HiMiniUserCircle } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { axiosInstance } from "../lib/axios";
