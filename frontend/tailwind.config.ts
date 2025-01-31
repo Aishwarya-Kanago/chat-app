@@ -13,7 +13,7 @@ export default {
       },
       colors: {
         "custom-purple": "#5A5AFF",
-        "custom-grey" : "#EEEEEE"
+        "custom-grey": "#EEEEEE",
       },
     },
   },

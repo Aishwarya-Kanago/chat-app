@@ -8,10 +8,11 @@ import { RootState } from "../store/store";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { updateProfilePic } from "../store/authSlice";
+import { setUserInfo, updateProfilePic } from "../store/authSlice";
 
 const page = () => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -43,22 +44,34 @@ const page = () => {
 
   const { push } = useRouter();
 
+  // useEffect(() => {
+  //   if (!user.isLoggedIn) {
+  //     push("/login");
+  //   } else {
+  //     push("/profile");
+  //   }
+  // }, [user]);
+
   useEffect(() => {
-    if (!user.isLoggedIn) {
+    const savedUser = localStorage.getItem("user");
+
+    if (!savedUser) {
       push("/login");
+    } else {
+      dispatch(setUserInfo(JSON.parse(savedUser)));
     }
-  }, [user]);
+  }, [isLoggedIn]);
 
   return (
     <>
       {user?.isLoggedIn && (
-        <div className="flex justify-center items-center ">
-          <div className="flex flex-col w-[30%] justify-center items-center gap-4 shadow-lg p-8 m-10">
-            <div className="flex flex-col items-center justify-center gap-3">
-              <h1 className="text-5xl font-semibold text-custom-purple">
+        <div className="flex justify-center items-center h-[80v]">
+          <div className="flex flex-col lg:w-[30%] justify-center items-center gap-4 shadow-lg p-8 m-10">
+            <div className="flex flex-col items-center justify-center gap-1 lg:gap-3">
+              <h1 className="text-2xl lg:text-5xl font-semibold text-custom-purple">
                 Profile
               </h1>
-              <p className="text-lg">Your profile information</p>
+              <p className="text-base lg:text-lg">Your profile information</p>
             </div>
             <div>
               <label
@@ -81,7 +94,9 @@ const page = () => {
               </label>
             </div>
             <div className="flex flex-col gap-1 w-full  bg-custom-grey rounded-md p-2">
-              <label className="text-gray-700 font-light">Full Name</label>
+              <label className="text-gray-700 font-light w-full">
+                Full Name
+              </label>
               <div className="flex items-center p-1 gap-2">
                 <MdPerson />
                 <p>{user?.fullName}</p>
@@ -100,7 +115,7 @@ const page = () => {
               </label>
               <div className="flex justify-between items-center p-1 gap-2">
                 <span className="text-black font-light">Member Since</span>
-                <span>11/12/12</span>
+                <span className="text-xs">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-US") : "N/A"}</span>
               </div>
               <hr className="border-t border-gray-300 my-2" />
               <div className="flex justify-between items-center p-1 gap-2">

@@ -29,45 +29,40 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between m-3 mx-6">
+    <div className="flex justify-between m-3 mb-5 lg:mx-6">
       <Link href="/">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center lg:gap-2 gap-1">
           <img
-            className="h-10 mix-blend-multiply"
+            className="h-6 lg:h-10 mix-blend-multiply"
             src="/chat-app-logo.png"
             alt="chat-app-img"
           />
-          <span className="text-3xl font-bold">Chattify</span>
+          <span className="text-base lg:text-3xl font-bold">Chattify</span>
         </div>
       </Link>
       <div className="flex items-center gap-8">
-        {/* <Link href="/settings">
-          <div className="flex items-center gap-1">
-            <MdSettings className="text-3xl" />
-            <span className="text-lg font-bold">Settings</span>
-          </div>
-        </Link> */}
-
         {user.isLoggedIn && (
-          <>
+          <div className="flex justify-center items-center gap-2 lg:gap-5">
             <Link href="/profile">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 <img
                   src={user?.profilePic || "/default-profile.png"}
                   alt={user?.fullName}
-                  className="size-8 rounded-full"
+                  className="size-5 lg:size-8 rounded-full"
                 />
-                <span className="text-lg font-bold">{user?.fullName}</span>
+                <span className="text-base lg:text-xl font-bold">
+                  {user?.fullName}
+                </span>
               </div>
             </Link>
 
             <button onClick={logoutHandler}>
               <div className="flex items-center gap-1">
-                <MdOutlineLogout className="text-3xl" />
-                <span className="text-lg font-bold">Logout</span>
+                <MdOutlineLogout className="size-5 lg:size-8" />
+                <span className="text-base lg:text-xl font-bold">Logout</span>
               </div>
             </button>
-          </>
+          </div>
         )}
       </div>
     </div>

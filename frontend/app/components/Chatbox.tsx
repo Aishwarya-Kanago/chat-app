@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import ChatContainer from "./ChatContainer";
@@ -7,6 +13,7 @@ import { sendMessage, socket } from "../lib/socketConnection";
 import { UserMessages } from "../lib/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { formatDistanceToNow } from "date-fns";
 
 type ChatboxProps = {
   selectedUser: User | undefined;
@@ -20,6 +27,8 @@ const Chatbox = ({
   setServerMessages,
 }: ChatboxProps) => {
   const [message, setMessage] = useState<string>("");
+  const [image, setImage] = useState<string | null>(null); // Store image preview
+  const fileInputRef = useRef<HTMLInputElement>(null); // Reference for file input
 
   const user = useSelector((state: RootState) => state.auth);
 
@@ -29,6 +38,8 @@ const Chatbox = ({
 
   const onclickHandler = () => {
     if (!selectedUser?._id) return;
+
+    if (!message) return;
 
     sendMessage({ message: message }, selectedUser?._id);
     setServerMessages((prevMessages) => [
@@ -42,6 +53,18 @@ const Chatbox = ({
     ]);
 
     setMessage("");
+  };
+
+  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl); // Set image preview
+    }
+  };
+
+  const loadImageHandler = () => {
+    fileInputRef.current?.click();
   };
 
   useEffect(() => {
@@ -70,6 +93,11 @@ const Chatbox = ({
     };
   }, []);
 
+  const formatLastSeen = (lastSeen: string) => {
+    if (!lastSeen) return "Never";
+    return formatDistanceToNow(new Date(lastSeen)) + " ago";
+  };
+
   return (
     <div className="flex flex-1 flex-col justify-between">
       <div>
@@ -77,11 +105,13 @@ const Chatbox = ({
           <img
             src={selectedUser?.profilePic || "/default-profile.png"}
             alt="user-img"
-            className="h-10 rounded-full w-10"
+            className="size-8 lg:size-10 rounded-full"
           />
           <div>
-            <p className="text-lg font-semibold">{selectedUser?.fullName}</p>
-            <p>{serverMessages[serverMessages.length - 1]?.createdAt}</p>
+            <p className="text-base lg:text-lg font-semibold">
+              {selectedUser?.fullName}
+            </p>
+            <p> Last seen: {formatLastSeen(selectedUser?.lastSeen || "")}</p>
           </div>
         </div>
       </div>
@@ -89,16 +119,23 @@ const Chatbox = ({
         selectedUser={selectedUser}
         serverMessages={serverMessages}
       />
-      <div className="bg-custom-grey flex items-center gap-4">
+      <div className="bg-custom-grey flex items-center gap-1 lg:gap-4">
         <input
           type="textarea"
           placeholder="Type a Message"
-          className="p-4 rounded-lg m-3 w-[80%]"
+          className="p-2 lg:p-4 rounded-lg m-1 mb-2 lg:m-3 w-[80%]"
           value={message}
           onChange={onChangeHandler}
         />
-        <MdOutlineImage className="text-3xl" />
-        <IoIosSend className="text-3xl" onClick={onclickHandler} />
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          ref={fileInputRef}
+          onChange={onImageChange}
+        />
+        <MdOutlineImage className="lg:size-8" onClick={loadImageHandler} />
+        <IoIosSend className="lg:size-8" onClick={onclickHandler} />
       </div>
     </div>
   );

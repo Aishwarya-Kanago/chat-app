@@ -7,6 +7,8 @@ export interface User {
   email: string;
   profilePic: string;
   isLoggedIn: boolean;
+  createdAt: string;
+  lastSeen: string;
 }
 
 const initialState: User = {
@@ -15,6 +17,8 @@ const initialState: User = {
   email: "",
   profilePic: "",
   isLoggedIn: false,
+  createdAt: new Date().toLocaleDateString(),
+  lastSeen: new Date().toISOString(),
 };
 
 const authSlice = createSlice({
@@ -27,7 +31,23 @@ const authSlice = createSlice({
       state.email = action.payload.email;
       state.profilePic = action.payload.profilePic;
       state.isLoggedIn = true;
+      if (action.payload.createdAt) {
+        const parsedDate = new Date(action.payload.createdAt);
+        state.createdAt = isNaN(parsedDate.getTime())
+          ? new Date().toISOString() // If invalid, set to current date
+          : parsedDate.toISOString(); // Store as ISO format
+      } else {
+        state.createdAt = new Date().toISOString(); // Default to now
+      }
 
+      if (action.payload.lastSeen) {
+        const parsedLastSeen = new Date(action.payload.lastSeen);
+        state.lastSeen = isNaN(parsedLastSeen.getTime())
+          ? new Date().toISOString() // If invalid, set to current date
+          : parsedLastSeen.toISOString(); // Store as ISO format
+      } else {
+        state.lastSeen = new Date().toISOString(); // Default to now
+      }
       // Save user data to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("user", JSON.stringify(state));

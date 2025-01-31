@@ -28,7 +28,7 @@ const ChatContainer = ({
   }, [serverMessages]);
 
   return (
-    <div className="bg-custom-grey flex-1 overflow-y-scroll">
+    <div className="bg-custom-grey flex-1 overflow-y-scroll no-scrollbar">
       {selectedUser &&
         serverMessages?.map((message, index) => {
           const currentDate = parseISO(message.createdAt);

@@ -63,10 +63,12 @@ const SignupPage = () => {
       <div className="flex h-[80vh] justify-center items-center mx-28 rounded-xl">
         <div className="flex flex-col flex-1">
           <div className="flex flex-col justify-center items-center mb-4 ">
-            <h1 className="text-5xl font-semibold text-custom-purple">
+            <h1 className="text-2xl lg:text-5xl font-semibold text-custom-purple">
               Create Account
             </h1>
-            <p className="mb-4 text-lg">Get Started with your free account</p>
+            <p className="mb-2 lg:mb-4 text-base lg:text-lg">
+              Get Started with your free account
+            </p>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-5 justify-center items-center w-full ">
@@ -128,14 +130,14 @@ const SignupPage = () => {
               </div>
               <button
                 type="submit"
-                className="bg-custom-purple text-white p-3 rounded-md lg:w-[30%] mt-6"
+                className="bg-custom-purple text-white p-3 rounded-md lg:w-[30%] mt-1 lg:mt-6"
               >
                 Create Account
               </button>
             </div>
           </form>
           <div className="text-center m-5">
-            <p className="text-lg font-medium">
+            <p className="text-sm lg:text-lg font-medium">
               Already have an account?
               <Link href="/login" className="text-custom-purple p-1">
                 Sign in

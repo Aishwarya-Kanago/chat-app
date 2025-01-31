@@ -27,10 +27,10 @@ const MessageSkeleton = ({
         <img
           src={profilePic || "/default-profile.png "}
           alt="img"
-          className="size-10 rounded-full object-cover"
+          className="size-8 lg:size-10 rounded-full object-cover"
         />
         <div>
-          <p className="text-[12px]">{formatDate(messageCreatedAt)}</p>
+          <p className="text-[10px] lg:text-[12px] text-gray-700">{formatDate(messageCreatedAt)}</p>
 
           <p
             className={`${
