@@ -1,10 +1,12 @@
 export type UserMessages = {
-  message: string;
+  message?: string;
   receiverId: string;
   senderId: string;
   createdAt: string;
-}[];
+  image?: string;
+};
 
 export type messagePayloadType = {
-  message: string;
+  message?: string;
+  image?: string;
 };

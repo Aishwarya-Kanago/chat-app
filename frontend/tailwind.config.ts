@@ -8,9 +8,6 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ["var(--font-poppins)"],
-      },
       colors: {
         "custom-purple": "#5A5AFF",
         "custom-grey": "#EEEEEE",

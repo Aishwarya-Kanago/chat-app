@@ -42,7 +42,7 @@ export const sendMessage = async (req, res) => {
     const { id: receiverId } = req.params;
     const senderId = req.user._id;
 
-    console.log("api payload", senderId.toString(), receiverId, message);
+    console.log("api payload", senderId.toString(), receiverId, message, image);
 
     let imageUrl;
     if (image) {
@@ -65,9 +65,10 @@ export const sendMessage = async (req, res) => {
       io.to(receiverSocketId).emit(
         "responseMessage",
         message,
+        imageUrl,
         senderId.toString()
       );
-      console.log("socket sent the message");
+      console.log("socket sent the message to", receiverSocketId, senderId);
     }
 
     res.status(201).json(newMessage);

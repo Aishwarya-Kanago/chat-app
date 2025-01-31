@@ -17,7 +17,7 @@ export const emitRemoveActiveUser = (response: User) => {
 
 export const sendMessage = async (
   messageData: messagePayloadType,
-  selectedUserId: string
+  selectedUserId: string | undefined
 ) => {
   try {
     const res = await axiosInstance.post(

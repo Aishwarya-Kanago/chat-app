@@ -1,11 +1,11 @@
+import { UserMessages } from "@/app/lib/types";
 import { User } from "@/app/store/authSlice";
 import React from "react";
 
 interface MessageSkeletonProps {
-  message: string;
-  messageCreatedAt: string;
+  serverMessage: UserMessages;
   isSender: boolean;
-  profilePic: string;
+  profilePic: string | undefined;
 }
 
 const formatDate = (isoString: string) => {
@@ -16,8 +16,7 @@ const formatDate = (isoString: string) => {
 };
 
 const MessageSkeleton = ({
-  message,
-  messageCreatedAt,
+  serverMessage,
   isSender,
   profilePic,
 }: MessageSkeletonProps) => {
@@ -30,15 +29,25 @@ const MessageSkeleton = ({
           className="size-8 lg:size-10 rounded-full object-cover"
         />
         <div>
-          <p className="text-[10px] lg:text-[12px] text-gray-700">{formatDate(messageCreatedAt)}</p>
-
-          <p
-            className={`${
-              isSender ? "bg-custom-purple" : "bg-slate-500"
-            } w-fit p-2 px-3 rounded-md text-white`}
-          >
-            {message}
+          <p className="text-[10px] lg:text-[12px] text-gray-700">
+            {formatDate(serverMessage?.createdAt)}
           </p>
+
+          {serverMessage.message ? (
+            <p
+              className={`${
+                isSender ? "bg-custom-purple" : "bg-slate-500"
+              } w-fit p-2 px-3 rounded-md text-white`}
+            >
+              {serverMessage.message}
+            </p>
+          ) : (
+            <img
+              src={serverMessage.image}
+              alt="user message image"
+              className="size-28 md:size-48 rounded-sm object-cover"
+            />
+          )}
         </div>
       </div>
     </>

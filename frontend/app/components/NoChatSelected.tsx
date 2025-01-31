@@ -8,10 +8,10 @@ const NoChatSelected = () => {
         src="/chat-app-logo.png"
         alt="chat-app-img"
       />
-      <h1 className="text-2xl lg:text-5xl font-semibold text-custom-purple">
+      <h1 className="text-xl lg:text-5xl font-semibold text-custom-purple">
         Welcome to Chattify
       </h1>
-      <p className="mb-4 lg:text-lg text-base">
+      <p className="mb-4 lg:text-lg text-sm text-center">
         Select a conversation from the sidebar to start chatting
       </p>
     </div>

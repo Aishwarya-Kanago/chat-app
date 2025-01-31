@@ -50,7 +50,7 @@ const Navbar = () => {
                   alt={user?.fullName}
                   className="size-5 lg:size-8 rounded-full"
                 />
-                <span className="text-base lg:text-xl font-bold">
+                <span className="text-base lg:text-xl font-medium">
                   {user?.fullName}
                 </span>
               </div>
@@ -58,8 +58,8 @@ const Navbar = () => {
 
             <button onClick={logoutHandler}>
               <div className="flex items-center gap-1">
-                <MdOutlineLogout className="size-5 lg:size-8" />
-                <span className="text-base lg:text-xl font-bold">Logout</span>
+                <MdOutlineLogout className="size-4 lg:size-8" />
+                <span className="text-base lg:text-xl font-medium">Logout</span>
               </div>
             </button>
           </div>

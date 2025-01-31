@@ -1,36 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
-import AuthStatus from "./components/AuthStatus";
-import localFont from "@next/font/local";
 import { Toaster } from "react-hot-toast";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
 import ReduxProvider from "./store/Provider";
 
-const poppins = localFont({
-  src: [
-    {
-      path: "../../public/fonts/Poppins-Regular.ttf",
-      weight: "400",
-    },
-    {
-      path: "../../public/fonts/Poppins-Bold.ttf",
-      weight: "700",
-    },
-  ],
-  variable: "--font-poppins",
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const poppins = Poppins({
+  variable: "--font-poppins", // Define a CSS variable
+  subsets: ["latin"], // Load only Latin subset to optimize performance
+  weight: ["300", "400", "500", "600", "700"], // Choose font weights you need
 });
 
 export const metadata: Metadata = {
@@ -45,11 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${poppins.variable} antialiased`}>
         <ReduxProvider>
-          <AuthStatus />
           <Navbar />
           <Toaster />
           <main>{children}</main>

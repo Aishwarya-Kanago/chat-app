@@ -8,7 +8,6 @@ export interface User {
   profilePic: string;
   isLoggedIn: boolean;
   createdAt: string;
-  lastSeen: string;
 }
 
 const initialState: User = {
@@ -18,7 +17,6 @@ const initialState: User = {
   profilePic: "",
   isLoggedIn: false,
   createdAt: new Date().toLocaleDateString(),
-  lastSeen: new Date().toISOString(),
 };
 
 const authSlice = createSlice({
@@ -40,14 +38,14 @@ const authSlice = createSlice({
         state.createdAt = new Date().toISOString(); // Default to now
       }
 
-      if (action.payload.lastSeen) {
-        const parsedLastSeen = new Date(action.payload.lastSeen);
-        state.lastSeen = isNaN(parsedLastSeen.getTime())
-          ? new Date().toISOString() // If invalid, set to current date
-          : parsedLastSeen.toISOString(); // Store as ISO format
-      } else {
-        state.lastSeen = new Date().toISOString(); // Default to now
-      }
+      // if (action.payload.lastSeen) {
+      //   const parsedLastSeen = new Date(action.payload.lastSeen);
+      //   state.lastSeen = isNaN(parsedLastSeen.getTime())
+      //     ? new Date().toISOString() // If invalid, set to current date
+      //     : parsedLastSeen.toISOString(); // Store as ISO format
+      // } else {
+      //   state.lastSeen = new Date().toISOString(); // Default to now
+      // }
       // Save user data to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("user", JSON.stringify(state));
@@ -64,7 +62,6 @@ const authSlice = createSlice({
       }
     },
     logout(state) {
-      // Clear user state and localStorage on logout
       emitRemoveActiveUser(state);
       Object.assign(state, initialState);
 

@@ -1,89 +1,87 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import { MdOutlineImage } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import ChatContainer from "./ChatContainer";
-import { User } from "../store/authSlice";
 import { sendMessage, socket } from "../lib/socketConnection";
-import { UserMessages } from "../lib/types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { formatDistanceToNow } from "date-fns";
+import { appendToServerMessages } from "../store/chatSlice";
+import NoChatSelected from "./NoChatSelected";
+import { axiosInstance } from "../lib/axios";
+import toast from "react-hot-toast";
 
-type ChatboxProps = {
-  selectedUser: User | undefined;
-  serverMessages: UserMessages;
-  setServerMessages: Dispatch<React.SetStateAction<UserMessages>>;
-};
-
-const Chatbox = ({
-  selectedUser,
-  serverMessages,
-  setServerMessages,
-}: ChatboxProps) => {
+const Chatbox = () => {
   const [message, setMessage] = useState<string>("");
-  const [image, setImage] = useState<string | null>(null); // Store image preview
   const fileInputRef = useRef<HTMLInputElement>(null); // Reference for file input
 
   const user = useSelector((state: RootState) => state.auth);
+  const chat = useSelector((state: RootState) => state.chat);
+  const dispatch = useDispatch();
 
   const onChangeHandler = (e: any) => {
     setMessage(e.target.value);
   };
 
   const onclickHandler = () => {
-    if (!selectedUser?._id) return;
+    if (!chat.selectedUser?._id) return;
 
     if (!message) return;
 
-    sendMessage({ message: message }, selectedUser?._id);
-    setServerMessages((prevMessages) => [
-      ...prevMessages,
-      {
+    sendMessage({ message: message }, chat.selectedUser?._id);
+    dispatch(
+      appendToServerMessages({
         message: message,
         senderId: user._id,
-        receiverId: selectedUser?._id,
+        receiverId: chat.selectedUser?._id,
         createdAt: new Date().toISOString(),
-      },
-    ]);
+      })
+    );
 
     setMessage("");
   };
 
-  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl); // Set image preview
-    }
-  };
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
 
-  const loadImageHandler = () => {
-    fileInputRef.current?.click();
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      if (!chat.selectedUser?._id) return;
+      const base64Image = reader.result;
+      if (typeof base64Image === "string") {
+        sendMessage({ image: base64Image }, chat.selectedUser?._id);
+        dispatch(
+          appendToServerMessages({
+            image: base64Image,
+            senderId: user._id,
+            receiverId: chat?.selectedUser?._id,
+            createdAt: new Date().toISOString(),
+          })
+        );
+      }
+    };
   };
 
   useEffect(() => {
-    if (!selectedUser) return;
-
     const handleMessage = (
       responseMessage: string,
-      senderUserId: string,
-      senderSocketId: string
+      imageUrl: string,
+      senderUserId: string
     ) => {
-      setServerMessages((prevMessages) => [
-        ...prevMessages,
-        {
+      console.log(responseMessage, "responseMessage");
+
+      dispatch(
+        appendToServerMessages({
           message: responseMessage,
+          image: imageUrl,
           senderId: senderUserId,
           receiverId: user._id,
           createdAt: new Date().toISOString(),
-        },
-      ]);
+        })
+      );
     };
 
     socket.on("responseMessage", handleMessage);
@@ -93,51 +91,66 @@ const Chatbox = ({
     };
   }, []);
 
-  const formatLastSeen = (lastSeen: string) => {
-    if (!lastSeen) return "Never";
-    return formatDistanceToNow(new Date(lastSeen)) + " ago";
-  };
-
   return (
-    <div className="flex flex-1 flex-col justify-between">
-      <div>
-        <div className="flex gap-2 items-center p-2 cursor-pointer hover:bg-slate-500">
-          <img
-            src={selectedUser?.profilePic || "/default-profile.png"}
-            alt="user-img"
-            className="size-8 lg:size-10 rounded-full"
-          />
+    <>
+      {chat.selectedUser ? (
+        <div className="flex flex-1 flex-col justify-between">
           <div>
-            <p className="text-base lg:text-lg font-semibold">
-              {selectedUser?.fullName}
-            </p>
-            <p> Last seen: {formatLastSeen(selectedUser?.lastSeen || "")}</p>
+            <div className="flex gap-2 items-center p-2 cursor-pointer hover:bg-slate-500">
+              <img
+                src={chat.selectedUser?.profilePic || "/default-profile.png"}
+                alt="user-img"
+                className="size-8 lg:size-10 rounded-full"
+              />
+              <div>
+                <p className="text-base lg:text-lg font-semibold">
+                  {chat.selectedUser?.fullName}
+                </p>
+                <p
+                  className={`${
+                    chat.activeUsers.some(
+                      (activeUser) => activeUser === chat.selectedUser?._id
+                    )
+                      ? "text-green-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {chat.activeUsers.some(
+                    (activeUser) => activeUser === chat.selectedUser?._id
+                  )
+                    ? "Online"
+                    : "Offline"}
+                </p>
+              </div>
+            </div>
+          </div>
+          <ChatContainer />
+          <div className="bg-custom-grey flex items-center gap-1 lg:gap-4">
+            <input
+              type="textarea"
+              placeholder="Type a Message"
+              className="p-2 lg:p-4 rounded-lg m-1 mb-2 lg:m-3 w-[80%]"
+              value={message}
+              onChange={onChangeHandler}
+            />
+            <label htmlFor="imageUpload" className="cursor-pointer relative">
+              <MdOutlineImage className="lg:size-8" />
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                id="imageUpload"
+              />
+            </label>
+            <IoIosSend className="lg:size-8" onClick={onclickHandler} />
           </div>
         </div>
-      </div>
-      <ChatContainer
-        selectedUser={selectedUser}
-        serverMessages={serverMessages}
-      />
-      <div className="bg-custom-grey flex items-center gap-1 lg:gap-4">
-        <input
-          type="textarea"
-          placeholder="Type a Message"
-          className="p-2 lg:p-4 rounded-lg m-1 mb-2 lg:m-3 w-[80%]"
-          value={message}
-          onChange={onChangeHandler}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          ref={fileInputRef}
-          onChange={onImageChange}
-        />
-        <MdOutlineImage className="lg:size-8" onClick={loadImageHandler} />
-        <IoIosSend className="lg:size-8" onClick={onclickHandler} />
-      </div>
-    </div>
+      ) : (
+        <NoChatSelected />
+      )}
+    </>
   );
 };
 
