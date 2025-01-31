@@ -69,15 +69,15 @@ const SignupPage = () => {
             <p className="mb-4 text-lg">Get Started with your free account</p>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-5 mx-8 justify-center items-center w-full ">
-              <div className="flex flex-col gap-1 w-[60%]  bg-custom-grey rounded-md p-2">
+            <div className="flex flex-col gap-5 justify-center items-center w-full ">
+              <div className="flex flex-col gap-1 lg:w-[60%]  bg-custom-grey rounded-md p-2">
                 <label className="text-gray-700 font-light">Full Name</label>
                 <div className="flex items-center p-1 gap-2">
                   <MdPerson />
                   <input
                     type="text"
                     placeholder="John Dae"
-                    className="focus:outline-none bg-custom-grey"
+                    className="focus:outline-none bg-custom-grey w-full"
                     value={formData.fullName}
                     onChange={(e) =>
                       setFormData({ ...formData, fullName: e.target.value })
@@ -85,14 +85,14 @@ const SignupPage = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col gap-1 w-[60%]  bg-custom-grey rounded-md p-2">
+              <div className="flex flex-col gap-1 lg:w-[60%]  bg-custom-grey rounded-md p-2">
                 <label className="text-gray-700 font-light">Email</label>
                 <div className="flex items-center p-1 gap-2">
                   <MdEmail />
                   <input
                     type="email"
                     placeholder="JohnDae@gmail.com"
-                    className="focus:outline-none bg-custom-grey "
+                    className="focus:outline-none bg-custom-grey w-full"
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
@@ -100,7 +100,7 @@ const SignupPage = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-col gap-1 w-[60%]  bg-custom-grey rounded-md p-2">
+              <div className="flex flex-col gap-1 lg:w-[60%]  bg-custom-grey rounded-md p-2">
                 <label className="text-gray-700 font-light">Password</label>
                 <div className="flex items-center p-1 gap-2 relative">
                   <MdLock />
@@ -128,7 +128,7 @@ const SignupPage = () => {
               </div>
               <button
                 type="submit"
-                className="bg-custom-purple text-white p-3 rounded-md w-[30%] mt-6"
+                className="bg-custom-purple text-white p-3 rounded-md lg:w-[30%] mt-6"
               >
                 Create Account
               </button>
@@ -143,7 +143,7 @@ const SignupPage = () => {
             </p>
           </div>
         </div>
-        <div className="flex-1 relative">
+        <div className="flex-1 relative hidden lg:block">
           <img src="/Vector-icons.png" className="mt-auto absolute top-0 " />
         </div>
       </div>

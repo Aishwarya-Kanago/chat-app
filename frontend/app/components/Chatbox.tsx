@@ -81,7 +81,7 @@ const Chatbox = ({
           />
           <div>
             <p className="text-lg font-semibold">{selectedUser?.fullName}</p>
-            <p>Online/Offline</p>
+            <p>{serverMessages[serverMessages.length - 1]?.createdAt}</p>
           </div>
         </div>
       </div>

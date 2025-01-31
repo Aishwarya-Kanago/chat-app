@@ -41,12 +41,12 @@ const Navbar = () => {
         </div>
       </Link>
       <div className="flex items-center gap-8">
-        <Link href="/settings">
+        {/* <Link href="/settings">
           <div className="flex items-center gap-1">
             <MdSettings className="text-3xl" />
             <span className="text-lg font-bold">Settings</span>
           </div>
-        </Link>
+        </Link> */}
 
         {user.isLoggedIn && (
           <>

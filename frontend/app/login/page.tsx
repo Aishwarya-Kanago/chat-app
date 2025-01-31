@@ -52,7 +52,7 @@ const LoginPage = () => {
             <p className="mb-4 text-lg">Sign in to your account</p>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-5 mx-8 justify-center items-center w-full ">
+            <div className="flex flex-col gap-5 justify-center items-center w-full ">
               <div className="flex flex-col gap-1 w-[60%]  bg-custom-grey rounded-md p-2">
                 <label className="text-gray-700 font-light">Email</label>
                 <div className="flex items-center p-1 gap-2">
@@ -60,7 +60,7 @@ const LoginPage = () => {
                   <input
                     type="email"
                     placeholder="JohnDae@gmail.com"
-                    className="focus:outline-none bg-custom-grey "
+                    className="focus:outline-none bg-custom-grey w-full"
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
@@ -75,7 +75,7 @@ const LoginPage = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     placeholder="......"
-                    className="focus:outline-none  bg-custom-grey"
+                    className="focus:outline-none  bg-custom-grey w-full"
                     value={formData.password}
                     onChange={(e) =>
                       setFormData({ ...formData, password: e.target.value })
