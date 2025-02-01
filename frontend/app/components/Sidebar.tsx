@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { IoIosContacts } from "react-icons/io";
 import { setUserInfo, User } from "../store/authSlice";
 import { getMessages, socket } from "../lib/socketConnection";
