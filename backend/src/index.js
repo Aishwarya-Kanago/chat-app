@@ -2,7 +2,8 @@ import express from "express";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import dotenv from "dotenv";
-import { connectDB } from "./lib/db.js";
+// import { connectDB } from "./lib/db.js";
+import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { app, server } from "./lib/socket.js";
@@ -22,10 +23,15 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+mongoose.connect(process.env.MONGODB_URI, { family: 4 });
+const db = mongoose.connection;
+db.on("error", (error) => console.error(error));
+db.once("open", () => console.log("Connected to Database"));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 server.listen(PORT, async () => {
   console.log("Server is running on PORT: ", PORT);
-  await connectDB();
+  // await connectDB();
 });
