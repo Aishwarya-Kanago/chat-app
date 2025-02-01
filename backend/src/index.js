@@ -2,7 +2,6 @@ import express from "express";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import dotenv from "dotenv";
-// import { connectDB } from "./lib/db.js";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -14,7 +13,10 @@ const PORT = process.env.PORT;
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 var corsOptions = {
-  origin: ["http://localhost:3000"],
+  origin: [
+    "http://localhost:3000",
+    "https://chat-app-frontend-five-eta.vercel.app",
+  ],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: "GET, PUT, POST, PATCH, DELETE",
