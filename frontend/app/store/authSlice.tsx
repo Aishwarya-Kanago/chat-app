@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  connectSocket,
-  disconnectSocket,
-  emitActiveUsers,
-  emitRemoveActiveUser,
-} from "../lib/socketConnection";
+import { emitActiveUsers, emitRemoveActiveUser } from "../lib/socketConnection";
 
 export interface User {
   _id: string;
@@ -46,7 +41,6 @@ const authSlice = createSlice({
         localStorage.setItem("user", JSON.stringify(state));
       }
       emitActiveUsers(state);
-      connectSocket(state._id);
     },
     updateProfilePic(state, action: PayloadAction<User>) {
       state.profilePic = action.payload.profilePic;
@@ -57,7 +51,6 @@ const authSlice = createSlice({
       }
     },
     logout(state) {
-      disconnectSocket();
       emitRemoveActiveUser(state);
       Object.assign(state, initialState);
 
