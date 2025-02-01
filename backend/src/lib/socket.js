@@ -9,7 +9,7 @@ export const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:3000",
-      "https://chat-app-frontend-five-eta.vercel.app",
+      "https://chat-app-frontend-u00y.onrender.com",
     ],
     credentials: true,
     methods: "GET, PUT, POST, PATCH, DELETE",

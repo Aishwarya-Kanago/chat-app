@@ -15,7 +15,7 @@ app.use(cookieParser());
 var corsOptions = {
   origin: [
     "http://localhost:3000",
-    "https://chat-app-frontend-five-eta.vercel.app",
+    "https://chat-app-frontend-u00y.onrender.com",
   ],
   credentials: true,
   optionsSuccessStatus: 200,
