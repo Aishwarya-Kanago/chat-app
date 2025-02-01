@@ -92,35 +92,33 @@ const Chatbox = () => {
     <>
       {chat.selectedUser ? (
         <div className="flex flex-1 flex-col justify-between">
-          <div>
-            <div className="flex gap-2 items-center p-2 cursor-pointer hover:bg-slate-500">
-              <Image
-                src={chat.selectedUser?.profilePic || "/default-profile.png"}
-                alt="user-img"
-                className="size-8 lg:size-10 rounded-full"
-                width={40}
-                height={40}
-              />
-              <div>
-                <p className="text-base lg:text-lg font-semibold">
-                  {chat.selectedUser?.fullName}
-                </p>
-                <p
-                  className={`${
-                    chat.activeUsers.some(
-                      (activeUser) => activeUser === chat.selectedUser?._id
-                    )
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
-                >
-                  {chat.activeUsers.some(
+          <div className="flex gap-2 items-center p-2 cursor-pointer hover:bg-slate-500">
+            <Image
+              src={chat.selectedUser?.profilePic || "/default-profile.png"}
+              alt="user-img"
+              className="size-8 lg:size-10 rounded-full"
+              width={40}
+              height={40}
+            />
+            <div>
+              <p className="text-base lg:text-lg font-semibold">
+                {chat.selectedUser?.fullName}
+              </p>
+              <p
+                className={`${
+                  chat.activeUsers.some(
                     (activeUser) => activeUser === chat.selectedUser?._id
                   )
-                    ? "Online"
-                    : "Offline"}
-                </p>
-              </div>
+                    ? "text-green-500"
+                    : "text-gray-500"
+                }`}
+              >
+                {chat.activeUsers.some(
+                  (activeUser) => activeUser === chat.selectedUser?._id
+                )
+                  ? "Online"
+                  : "Offline"}
+              </p>
             </div>
           </div>
           <ChatContainer />

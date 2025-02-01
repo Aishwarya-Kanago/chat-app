@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
   socket.on("removeActiveUser", (user) => {
     if (user?._id) {
       onlineUsers.delete(user._id);
-      console.log(onlineUsers, "Updated Online Users");
+      console.log(onlineUsers, "removed from Online Users");
 
       io.emit("newActiveUserResponse", Array.from(onlineUsers.keys()));
     }
