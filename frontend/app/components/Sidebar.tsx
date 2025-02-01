@@ -44,10 +44,10 @@ const Sidebar = () => {
       dispatch(setActiveUsers(activeUsersList));
     };
 
-    socket.on("newActiveUserResponse", handleNewActiveUserResponse);
+    socket?.on("newActiveUserResponse", handleNewActiveUserResponse);
 
     return () => {
-      socket.off("newActiveUserResponse", handleNewActiveUserResponse);
+      socket?.off("newActiveUserResponse", handleNewActiveUserResponse);
     };
   }, [socket, chat.activeUsers]);
 

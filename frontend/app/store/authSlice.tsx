@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { emitActiveUsers, emitRemoveActiveUser } from "../lib/socketConnection";
+import {
+  connectSocket,
+  disconnectSocket,
+  emitActiveUsers,
+  emitRemoveActiveUser,
+} from "../lib/socketConnection";
 
 export interface User {
   _id: string;
@@ -24,6 +29,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUserInfo(state, action: PayloadAction<User>) {
+      connectSocket();
       state._id = action.payload._id;
       state.fullName = action.payload.fullName;
       state.email = action.payload.email;
@@ -57,6 +63,7 @@ const authSlice = createSlice({
       if (typeof window !== "undefined") {
         localStorage.removeItem("user");
       }
+      disconnectSocket();
     },
   },
 });

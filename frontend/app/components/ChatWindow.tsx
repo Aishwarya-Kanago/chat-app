@@ -82,10 +82,10 @@ const Chatbox = () => {
       );
     };
 
-    socket.on("responseMessage", handleMessage);
+    socket?.on("responseMessage", handleMessage);
 
     return () => {
-      socket.off("responseMessage", handleMessage);
+      socket?.off("responseMessage", handleMessage);
     };
   }, []);
 

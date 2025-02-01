@@ -5,16 +5,33 @@ import toast from "react-hot-toast";
 import { axiosInstance, BASEURL } from "./axios";
 import axios from "axios";
 
-export const socket: Socket = io(BASEURL, {
-  withCredentials: true,
-});
+export let socket: Socket | null = null;
+export const connectSocket = () => {
+  if (!socket) {
+    socket = io(BASEURL, {
+      withCredentials: true,
+    });
+    socket.on("connect", () => {
+      console.log("Connected to socket server");
+    });
+    socket.on("disconnect", () => {
+      console.log("Disconnected from socket server");
+    });
+  }
+};
+export const disconnectSocket = () => {
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
+};
 
 export const emitActiveUsers = (response: User) => {
-  socket.emit("newActiveUser", response);
+  socket?.emit("newActiveUser", response);
 };
 
 export const emitRemoveActiveUser = (response: User) => {
-  socket.emit("removeActiveUser", response);
+  socket?.emit("removeActiveUser", response);
 };
 
 export const sendMessage = async (
