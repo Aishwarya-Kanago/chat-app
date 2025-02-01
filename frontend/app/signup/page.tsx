@@ -10,6 +10,7 @@ import { axiosInstance } from "../lib/axios";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../store/authSlice";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +37,7 @@ const SignupPage = () => {
     return true;
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const success = validateform();
@@ -146,7 +147,11 @@ const SignupPage = () => {
           </div>
         </div>
         <div className="flex-1 relative hidden lg:block">
-          <img src="/Vector-icons.png" className="mt-auto absolute top-0 " />
+          <Image
+            src="/Vector-icons.png"
+            alt="signup-vector"
+            className="mt-auto absolute top-0 "
+          />
         </div>
       </div>
     </>

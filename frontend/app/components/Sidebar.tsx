@@ -14,6 +14,7 @@ import {
   setUserData,
 } from "../store/chatSlice";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Sidebar = () => {
   const chat = useSelector((state: RootState) => state.chat);
@@ -72,7 +73,7 @@ const Sidebar = () => {
             <li key={user._id} onClick={() => handleSelectedUser(user)}>
               <div className="mb-2 lg:flex lg:gap-2 lg:items-center lg:p-2 cursor-pointer hover:bg-slate-500">
                 <div className="relative">
-                  <img
+                  <Image
                     src={user.profilePic || "/default-profile.png"}
                     alt="user-img"
                     className="size-8 lg:size-10 rounded-full object-cover"

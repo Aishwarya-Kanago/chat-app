@@ -1,9 +1,10 @@
+import Image from "next/image";
 import React from "react";
 
 const NoChatSelected = () => {
   return (
     <div className="flex flex-1 w-full flex-col justify-center items-center gap-3">
-      <img
+      <Image
         className="h-10 mix-blend-multiply"
         src="/chat-app-logo.png"
         alt="chat-app-img"

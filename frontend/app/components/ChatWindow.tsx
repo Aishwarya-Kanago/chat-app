@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { appendToServerMessages } from "../store/chatSlice";
 import NoChatSelected from "./NoChatSelected";
+import Image from "next/image";
 
 const Chatbox = () => {
   const [message, setMessage] = useState<string>("");
@@ -17,7 +18,7 @@ const Chatbox = () => {
   const chat = useSelector((state: RootState) => state.chat);
   const dispatch = useDispatch();
 
-  const onChangeHandler = (e: any) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
 
@@ -95,7 +96,7 @@ const Chatbox = () => {
         <div className="flex flex-1 flex-col justify-between">
           <div>
             <div className="flex gap-2 items-center p-2 cursor-pointer hover:bg-slate-500">
-              <img
+              <Image
                 src={chat.selectedUser?.profilePic || "/default-profile.png"}
                 alt="user-img"
                 className="size-8 lg:size-10 rounded-full"

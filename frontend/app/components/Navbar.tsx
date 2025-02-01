@@ -8,6 +8,7 @@ import { RootState } from "../store/store";
 import { axiosInstance } from "../lib/axios";
 import { logout } from "../store/authSlice";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 const Navbar = () => {
   const user = useSelector((state: RootState) => state.auth);
@@ -31,7 +32,7 @@ const Navbar = () => {
     <div className="flex justify-between m-3 mb-5 lg:mx-6">
       <Link href="/">
         <div className="flex items-center lg:gap-2 gap-1">
-          <img
+          <Image
             className="h-6 lg:h-10 mix-blend-multiply"
             src="/chat-app-logo.png"
             alt="chat-app-img"
@@ -44,7 +45,7 @@ const Navbar = () => {
           <div className="flex justify-center items-center gap-2 lg:gap-5">
             <Link href="/profile">
               <div className="flex items-center gap-2">
-                <img
+                <Image
                   src={user?.profilePic || "/default-profile.png"}
                   alt={user?.fullName}
                   className="size-5 lg:size-8 rounded-full"

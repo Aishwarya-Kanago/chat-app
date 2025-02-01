@@ -11,6 +11,7 @@ import { setUserInfo } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { socket } from "../lib/socketConnection";
+import Image from "next/image";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +23,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const { push } = useRouter();
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await axiosInstance
       .post("/auth/login", formData)
@@ -103,7 +104,7 @@ const LoginPage = () => {
           </form>
           <div className="text-center m-5">
             <p className="text-sm lg:text-lg font-medium">
-              Don't have an account?
+              {"Don't have an account?"}
               <Link href="/signup" className="text-custom-purple p-1">
                 Create Account
               </Link>
@@ -111,7 +112,11 @@ const LoginPage = () => {
           </div>
         </div>
         <div className="flex-1 relative hidden lg:block">
-          <img src="/Vector-icons.png" className="mt-auto absolute top-0 " />
+          <Image
+            src="/Vector-icons.png"
+            alt="login-vector"
+            className="mt-auto absolute top-0 "
+          />
         </div>
       </div>
     </>

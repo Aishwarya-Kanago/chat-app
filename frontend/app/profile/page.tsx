@@ -9,8 +9,9 @@ import { useRouter } from "next/navigation";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { setUserInfo, updateProfilePic } from "../store/authSlice";
+import Image from "next/image";
 
-const page = () => {
+const ProfilePage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
@@ -70,7 +71,7 @@ const page = () => {
                 htmlFor="avatar-upload"
                 className="cursor-pointer relative"
               >
-                <img
+                <Image
                   src={user?.profilePic || "/default-profile.png"}
                   alt="profile-img"
                   className="size-32 rounded-full object-cover border-4"
@@ -126,4 +127,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ProfilePage;

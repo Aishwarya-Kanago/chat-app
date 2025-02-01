@@ -39,10 +39,7 @@ export const sendMessage = async (
   selectedUserId: string | undefined
 ) => {
   try {
-    const res = await axiosInstance.post(
-      `/messages/send/${selectedUserId}`,
-      messageData
-    );
+    await axiosInstance.post(`/messages/send/${selectedUserId}`, messageData);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       toast.error(error.response?.data?.message || "An error occurred");

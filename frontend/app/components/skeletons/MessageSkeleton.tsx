@@ -1,5 +1,5 @@
 import { UserMessages } from "@/app/lib/types";
-import { User } from "@/app/store/authSlice";
+import Image from "next/image";
 import React from "react";
 
 interface MessageSkeletonProps {
@@ -23,7 +23,7 @@ const MessageSkeleton = ({
   return (
     <>
       <div className="flex items-end gap-2 m-5">
-        <img
+        <Image
           src={profilePic || "/default-profile.png "}
           alt="img"
           className="size-8 lg:size-10 rounded-full object-cover"
@@ -42,8 +42,8 @@ const MessageSkeleton = ({
               {serverMessage.message}
             </p>
           ) : (
-            <img
-              src={serverMessage.image}
+            <Image
+              src={serverMessage.image || ""}
               alt="user message image"
               className="size-28 md:size-48 rounded-sm object-cover"
             />

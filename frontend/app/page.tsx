@@ -1,7 +1,7 @@
 import Sidebar from "./components/Sidebar";
 import Chatbox from "./components/ChatWindow";
 
-const page = () => {
+const HomePage = () => {
   return (
     <>
       <div className="h-[90vh] lg:h-[80vh] lg:m-10 m-2">
@@ -18,4 +18,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default HomePage;
