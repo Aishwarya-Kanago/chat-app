@@ -13,7 +13,7 @@ const PORT = process.env.PORT;
 
 app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
-export var corsOptions = {
+var corsOptions = {
   origin: ["http://localhost:3000"],
   credentials: true,
   optionsSuccessStatus: 200,
