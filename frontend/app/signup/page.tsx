@@ -146,11 +146,11 @@ const SignupPage = () => {
             </p>
           </div>
         </div>
-        <div className="flex-1 relative hidden lg:block">
+        <div className="flex-1 hidden lg:block">
           <Image
             src="/Vector-icons.png"
             alt="signup-vector"
-            className="mt-auto absolute top-0"
+            className="absolute bottom-0"
             width={850}
             height={850}
           />
