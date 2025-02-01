@@ -33,7 +33,7 @@ const Navbar = () => {
       <Link href="/">
         <div className="flex items-center lg:gap-2 gap-1">
           <Image
-            className="h-6 lg:h-10 mix-blend-multiply"
+            className="size-6 lg:size-10 mix-blend-multiply"
             src="/chat-app-logo.png"
             alt="chat-app-img"
             height={40}

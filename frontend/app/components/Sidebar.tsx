@@ -60,7 +60,7 @@ const Sidebar = () => {
 
   return (
     <div className="bg-white flex-2 border-r-2 border-slate-200 lg:w-[25%]">
-      <div className="m-4">
+      <div className="m-4 overflow-y-scroll no-scrollbar h-full">
         <div className="flex items-center gap-1 lg:m-3">
           <IoIosContacts className="lg:size-10 size-8" />
           <span className="hidden lg:block lg:text-xl">Contacts</span>
