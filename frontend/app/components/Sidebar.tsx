@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { IoIosContacts } from "react-icons/io";
 import { setUserInfo, User } from "../store/authSlice";
 import { getMessages, socket } from "../lib/socketConnection";
@@ -42,6 +42,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const handleNewActiveUserResponse = (activeUsersList: string[]) => {
+      console.log(activeUsersList, "activeUsersList");
       dispatch(setActiveUsers(activeUsersList));
     };
 
@@ -77,6 +78,8 @@ const Sidebar = () => {
                     src={user.profilePic || "/default-profile.png"}
                     alt="user-img"
                     className="size-8 lg:size-10 rounded-full object-cover"
+                    height={40}
+                    width={40}
                   />
 
                   {chat.activeUsers.some(

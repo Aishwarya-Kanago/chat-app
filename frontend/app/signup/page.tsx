@@ -150,7 +150,9 @@ const SignupPage = () => {
           <Image
             src="/Vector-icons.png"
             alt="signup-vector"
-            className="mt-auto absolute top-0 "
+            className="mt-auto absolute top-0"
+            width={850}
+            height={850}
           />
         </div>
       </div>

@@ -36,6 +36,8 @@ const Navbar = () => {
             className="h-6 lg:h-10 mix-blend-multiply"
             src="/chat-app-logo.png"
             alt="chat-app-img"
+            height={40}
+            width={40}
           />
           <span className="text-base lg:text-3xl font-bold">Chattify</span>
         </div>
@@ -49,6 +51,8 @@ const Navbar = () => {
                   src={user?.profilePic || "/default-profile.png"}
                   alt={user?.fullName}
                   className="size-5 lg:size-8 rounded-full"
+                  height={32}
+                  width={32}
                 />
                 <span className="text-base lg:text-xl font-medium">
                   {user?.fullName}

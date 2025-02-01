@@ -75,6 +75,8 @@ const ProfilePage = () => {
                   src={user?.profilePic || "/default-profile.png"}
                   alt="profile-img"
                   className="size-32 rounded-full object-cover border-4"
+                  height={128}
+                  width={128}
                 />
                 <FcCamera className="w-5 h-5 text-base-200 absolute bottom-2 right-1 bg-base-content hover:scale-105 transition-all duration-200" />
                 <input

@@ -8,6 +8,8 @@ const NoChatSelected = () => {
         className="h-10 mix-blend-multiply"
         src="/chat-app-logo.png"
         alt="chat-app-img"
+        height={40}
+        width={40}
       />
       <h1 className="text-xl lg:text-5xl font-semibold text-custom-purple">
         Welcome to Chattify

@@ -100,6 +100,8 @@ const Chatbox = () => {
                 src={chat.selectedUser?.profilePic || "/default-profile.png"}
                 alt="user-img"
                 className="size-8 lg:size-10 rounded-full"
+                width={40}
+                height={40}
               />
               <div>
                 <p className="text-base lg:text-lg font-semibold">

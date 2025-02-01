@@ -46,7 +46,7 @@ const authSlice = createSlice({
       if (typeof window !== "undefined") {
         localStorage.setItem("user", JSON.stringify(state));
       }
-      emitActiveUsers(state);
+      emitActiveUsers(action.payload);
     },
     updateProfilePic(state, action: PayloadAction<User>) {
       state.profilePic = action.payload.profilePic;

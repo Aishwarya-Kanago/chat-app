@@ -27,6 +27,8 @@ const MessageSkeleton = ({
           src={profilePic || "/default-profile.png "}
           alt="img"
           className="size-8 lg:size-10 rounded-full object-cover"
+          height={40}
+          width={40}
         />
         <div>
           <p className="text-[10px] lg:text-[12px] text-gray-700">
@@ -42,11 +44,15 @@ const MessageSkeleton = ({
               {serverMessage.message}
             </p>
           ) : (
-            <Image
-              src={serverMessage.image || ""}
-              alt="user message image"
-              className="size-28 md:size-48 rounded-sm object-cover"
-            />
+            serverMessage.image && (
+              <Image
+                src={serverMessage.image}
+                alt="user message image"
+                className="size-28 md:size-48 rounded-sm object-cover"
+                height={192}
+                width={192}
+              />
+            )
           )}
         </div>
       </div>
