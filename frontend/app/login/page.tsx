@@ -30,7 +30,7 @@ const LoginPage = () => {
         const response = res.data;
         if (res.status === 200) {
           dispatch(setUserInfo(response));
-          socket.emit("newActiveUser", response);
+          socket?.emit("newActiveUser", response);
           push("/");
         }
       })

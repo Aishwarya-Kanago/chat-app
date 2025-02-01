@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { emitActiveUsers, emitRemoveActiveUser } from "../lib/socketConnection";
+import {
+  connectSocket,
+  disconnectSocket,
+  emitActiveUsers,
+  emitRemoveActiveUser,
+} from "../lib/socketConnection";
 
 export interface User {
   _id: string;
@@ -32,15 +37,16 @@ const authSlice = createSlice({
       if (action.payload.createdAt) {
         const parsedDate = new Date(action.payload.createdAt);
         state.createdAt = isNaN(parsedDate.getTime())
-          ? new Date().toISOString() 
-          : parsedDate.toISOString(); 
+          ? new Date().toISOString()
+          : parsedDate.toISOString();
       } else {
-        state.createdAt = new Date().toISOString(); 
+        state.createdAt = new Date().toISOString();
       }
       if (typeof window !== "undefined") {
         localStorage.setItem("user", JSON.stringify(state));
       }
       emitActiveUsers(state);
+      connectSocket(state._id);
     },
     updateProfilePic(state, action: PayloadAction<User>) {
       state.profilePic = action.payload.profilePic;
@@ -51,6 +57,7 @@ const authSlice = createSlice({
       }
     },
     logout(state) {
+      disconnectSocket();
       emitRemoveActiveUser(state);
       Object.assign(state, initialState);
 

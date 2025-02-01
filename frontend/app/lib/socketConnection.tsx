@@ -2,17 +2,40 @@ import { io, Socket } from "socket.io-client";
 import { User } from "../store/authSlice";
 import { messagePayloadType } from "./types";
 import toast from "react-hot-toast";
-import { axiosInstance } from "./axios";
+import { axiosInstance, BASEURL } from "./axios";
 import axios from "axios";
 
-export const socket: Socket = io("https://chat-app-mauve-ten.vercel.app");
+export let socket: Socket | null = null;
+
+export const connectSocket = (userId: string) => {
+  if (!socket) {
+    socket = io(BASEURL, {
+      query: { userId },
+    });
+
+    socket.on("connect", () => {
+      console.log("Connected to socket server");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from socket server");
+    });
+  }
+};
+
+export const disconnectSocket = () => {
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
+};
 
 export const emitActiveUsers = (response: User) => {
-  socket.emit("newActiveUser", response);
+  socket?.emit("newActiveUser", response);
 };
 
 export const emitRemoveActiveUser = (response: User) => {
-  socket.emit("removeActiveUser", response);
+  socket?.emit("removeActiveUser", response);
 };
 
 export const sendMessage = async (
