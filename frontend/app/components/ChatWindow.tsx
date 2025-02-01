@@ -70,8 +70,6 @@ const Chatbox = () => {
       imageUrl: string,
       senderUserId: string
     ) => {
-      console.log(responseMessage, "responseMessage");
-
       dispatch(
         appendToServerMessages({
           message: responseMessage,

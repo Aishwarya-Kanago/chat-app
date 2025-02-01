@@ -42,7 +42,6 @@ const Sidebar = () => {
 
   useEffect(() => {
     const handleNewActiveUserResponse = (activeUsersList: string[]) => {
-      console.log(activeUsersList, "activeUsersList");
       dispatch(setActiveUsers(activeUsersList));
     };
 
@@ -57,7 +56,6 @@ const Sidebar = () => {
     dispatch(setSelectedUser(user));
     const selectedUserMessages = await getMessages(user._id);
     dispatch(setServerMessages(selectedUserMessages));
-    console.log(selectedUserMessages, "messagessssssss alllll");
   };
 
   return (

@@ -21,8 +21,6 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     setSelectedUser(state, action: PayloadAction<User>) {
-      console.log(action.payload, "calling setSelectedUser");
-
       state.selectedUser = action.payload;
     },
     setUserData(state, action: PayloadAction<User[]>) {
