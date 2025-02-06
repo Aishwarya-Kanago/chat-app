@@ -151,8 +151,8 @@ const SignupPage = () => {
             src="/Vector-icons.png"
             alt="signup-vector"
             className="absolute bottom-0"
-            width={850}
-            height={850}
+            width={700}
+            height={700}
           />
         </div>
       </div>

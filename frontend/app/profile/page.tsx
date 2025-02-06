@@ -59,7 +59,7 @@ const ProfilePage = () => {
     <>
       {user?.isLoggedIn && (
         <div className="flex justify-center items-center h-[80v]">
-          <div className="flex flex-col lg:w-[30%] justify-center items-center gap-4 shadow-lg p-8 m-10">
+          <div className="flex flex-col lg:w-[30%] justify-center items-center gap-4 shadow-lg p-8">
             <div className="flex flex-col items-center justify-center gap-1 lg:gap-3">
               <h1 className="text-2xl lg:text-5xl font-semibold text-custom-purple">
                 Profile

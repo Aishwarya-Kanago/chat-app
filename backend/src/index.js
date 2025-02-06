@@ -36,6 +36,10 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error("error while connecting to DB", error));
 db.once("open", () => console.log("Connected to Database"));
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Backend Apis" });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 

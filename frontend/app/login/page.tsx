@@ -116,8 +116,8 @@ const LoginPage = () => {
             src="/Vector-icons.png"
             alt="login-vector"
             className="absolute bottom-0 "
-            width={850}
-            height={850}
+            width={700}
+            height={700}
           />
         </div>
       </div>

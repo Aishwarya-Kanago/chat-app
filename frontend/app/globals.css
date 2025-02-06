@@ -13,9 +13,3 @@
     scrollbar-width: none; /* Firefox */
   }
 }
-
-html,
-body,
-:root {
-  height: 98vh;
-}

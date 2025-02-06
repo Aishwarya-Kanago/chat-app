@@ -6,9 +6,9 @@ import { Toaster } from "react-hot-toast";
 import ReduxProvider from "./store/Provider";
 
 const poppins = Poppins({
-  variable: "--font-poppins", 
-  subsets: ["latin"], 
-  weight: ["300", "400", "500", "600", "700"], 
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -24,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
-        <ReduxProvider>
-          <Navbar />
+        <div>
           <Toaster />
-          <main>{children}</main>
-        </ReduxProvider>
+          <ReduxProvider>
+            <Navbar />
+            {children}
+          </ReduxProvider>
+        </div>
       </body>
     </html>
   );

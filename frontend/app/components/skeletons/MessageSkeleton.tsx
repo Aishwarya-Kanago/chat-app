@@ -24,7 +24,7 @@ const MessageSkeleton = ({
     <>
       <div className="flex items-end gap-2 m-5">
         <Image
-          src={profilePic || "/default-profile.png "}
+          src={profilePic || "/default-profile.png"}
           alt="img"
           className="size-8 lg:size-10 rounded-full object-cover"
           height={40}
